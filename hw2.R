@@ -9,49 +9,42 @@ t = gsub("[ ]{2,}", " ", t) #If space two times or more in a row, remove extra s
 
 places = c("Constantinople", "Egypt", "Alexandria", "Persia")
 
-j = list()
-s = TRUE
-while (s) {
-  n = length(j)+1
-  j[[n]] = c("Pattern", n)
-  if (n>20) {
-    s = FALSE
-  }
-}
-
-
-final_ind = list()
-final_places = list()
 patterns = list()
-
-
-for (i in places) {
-  p = " ([a-z]+ )+(?=" + places[i] +"[^a-z])"
+for (i in 1:(length(places))) {
+  p = paste(" ([a-z]+ ){2}(?=", places[i] ,"[^a-z])", sep="")  
   m = gregexpr(p, t, perl = T, useBytes = T)
   v = regmatches(t, m)[[1]]
-  v
-  v = unique(v)
-  # do something with names etc idk yet
-  #
   
-  for (j in length(v)) {
-    p_temp = paste("(?<=", v[j],")","([A-Z][a-z]+[ ]*)+", sep="")
-    p_temp
-    m = gregexpr(p_temp, t, perl = T)
-    v2 = regmatches(t, m)[[1]]
-    v2
-    unique(v2)
-  }
+  # find top frequency
+  # find unique top 20
   
-  while (s) {
-    n = length(j)+1
-    j[[n]] = c("Pattern", n)
-    
-    if (n>20) {
-      s = FALSE
-    }
-  }
-  
+  patterns[[(length(patterns)+1):(length(patterns)+1)]] = v[1:20]
 }
 
+patterns
+# clean it up
+# prefer patterns that are like 2/3 words 
+# 20 patterns
 
+patterns[[4]][20]
+
+final_places = list()
+for (i in 1:4) {
+  for (j in 1:20) {
+    print(i, j)
+    p_temp = paste("(?<=", patterns[[i]][j] ,")","([A-Z][a-z]+[ ]*)+", sep="")
+    print(p_temp)
+    m = gregexpr(p_temp, t, perl = T)
+    v2 = regmatches(t, m)[[1]]
+    # unique
+    # run it against the getty thing and work with the XML to get the subject_ID
+    
+    final_places = append(final_places, v2)
+  }
+}
+
+final_places
+
+
+
+# stopped work here
