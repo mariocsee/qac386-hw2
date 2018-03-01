@@ -11,7 +11,9 @@ install.packages("descr")
 library(descr)
 # possibly cut up t
 
-places = c("Constantinople", "Egypt", "Alexandria", "Persia")
+places = c("Constantinople", "Egypt", "Alexandria", "Persia","Syria","Thessalonica",
+           "Byzantium","Carthage", "Cilicia","Spain")
+
 
 generate_patterns_places <- function(sample) {
   
